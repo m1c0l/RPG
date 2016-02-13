@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <cstdarg>
 
 using namespace std;
 
@@ -13,15 +14,15 @@ distribution object every time we need a random number
 class Random {
 public:
     Random() = default;
-    Random(std::mt19937::result_type seed) : eng(seed) {}
-    int DrawNumber(int min, int max);
+    Random(mt19937::result_type seed) : eng(seed) {}
+    int drawNumber(int min, int max);
 
 private:        
-    std::mt19937 eng{std::random_device{}()};
+    mt19937 eng{random_device{}()};
 };
 
-int Random::DrawNumber(int min, int max) {
-    return std::uniform_int_distribution<int>{min, max}(eng);
+int Random::drawNumber(int min, int max) {
+    return uniform_int_distribution<int>{min, max}(eng);
 }
 
 void generateHeader() {
@@ -36,7 +37,7 @@ void generateHeader() {
 void generateMainFunction() {
 	cout << "int main() {\n";
 	// use endl here instead of \n to make the cout more clear	
-	cout << "\tcout << \"Hello world!\" << endl;" << endl;
+	cout << "\tcout << \"Hello world!\" << '\\n';" << '\n';
 	cout << "\treturn 0;\n";
 	cout << "}\n";
 }
