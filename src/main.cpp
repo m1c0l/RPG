@@ -35,14 +35,17 @@ void generateHeader() {
 }
 
 void generateMainFunction() {
+	Scope scope;
 	coutLine("int main() {");
 	g_currentTabCount++;
 	coutLine("cout << \"Hello world!\" << '\\n';");
 	Random randGen;
 	random_t tmpRand = randGen.drawNumber(LLONG_MIN, LLONG_MAX);
-	coutLine("long long ll = " + to_string(tmpRand) + ";");
+	coutLine("long long " + scope.newVar("long long") + " = "
+			+ to_string(tmpRand) + ";");
 	tmpRand = randGen.drawNumber(CHAR_MIN, CHAR_MAX);
-	coutLine("char c = " + to_string(tmpRand) + ";");
+	coutLine("char " + scope.newVar("char") + " = "
+			+ to_string(tmpRand) + ";");
 	coutLine("return 0;");
 	g_currentTabCount--;
 	coutLine("}");
