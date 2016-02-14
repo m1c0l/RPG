@@ -1,5 +1,6 @@
 #include <unordered_set>
 #include <unordered_map>
+#include <vector>
 #include <string>
 #include <cstdlib>
 #include <iostream>
@@ -11,8 +12,10 @@ char randChar() {
 
 class Scope {
 	private:
-		unordered_set<string> variableNames;
-		unordered_map<string, unordered_set<string>> types;
+		unordered_set<string> names;
+		unordered_map<string, vector<string>> types;
+
+		void addVariable(string type, string name);
 
 	public:
 		string newVariable(string type);
@@ -20,15 +23,34 @@ class Scope {
 		string getVariable(string type);
 };
 
-string Scope::newVariable(string type) {
-	string var;
-	var += randChar();
+void Scope::addVariable(string type, string name) {
+	names.insert(name);
+	types[type].push_back(name);
+}
 
-	while (variableNames.count(var))
-		var += randChar();
-	variableNames.insert(var);
-	types[type].insert(var);
-	return var;
+string Scope::newVariable(string type) {
+	string name;
+	name += randChar();
+
+	while (names.count(name))
+		name += randChar();
+
+	addVariable(type, name);
+	return name;
+}
+
+string Scope::newVariable(string type, string name) {
+	if (!names.count(name)) {
+		addVariable(type, name);
+		return name;
+	}
+	// add a number to the end of the proposed name
+	int counter = 1;
+	string newName = name + to_string(counter++);
+	while (names.count(newName))
+		newName = name + to_string(counter++);
+	addVariable(type, newName);
+	return newName;
 }
 
 string Scope::getVariable(string type) {
@@ -36,11 +58,7 @@ string Scope::getVariable(string type) {
 		throw runtime_error("Scope has no variables of type " + type);
 
 	int random = rand() % types[type].size();
-	for (string var : types[type]) {
-		if (random-- == 0)
-			return var;
-	}
-	return "";
+	return types[type][random];
 }
 
 int main() {
@@ -55,7 +73,8 @@ int main() {
 			break;
 	}
 	cout << '\n';
-	cout << scope.newVariable("double") << '\n';
-	cout << scope.newVariable("double") << '\n';
-	cout << scope.getVariable("double") << '\n';
+	cout << scope.newVariable("int", "test") << '\n';
+	cout << scope.newVariable("int", "test") << '\n';
+	cout << scope.newVariable("int", "test") << '\n';
+	cout << scope.newVariable("int", "test") << '\n';
 }
