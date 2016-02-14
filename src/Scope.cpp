@@ -1,10 +1,15 @@
 #include <string>
 #include <cstdlib>
+
 #include "Scope.h"
+#include "Random.h"
+
 using namespace std;
 
+Random randGen;
+
 char randChar() {
-	return (rand() % ('z' - 'a')) + 'a';
+	return randGen.drawNumber('a', 'z');
 }
 
 void Scope::addVar(string type, string name) {
