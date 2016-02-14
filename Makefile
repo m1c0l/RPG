@@ -2,16 +2,35 @@ CC = g++
 CFLAGS = -std=c++11 -Wall -Wextra
 
 SRC_DIR = src
+OBJ_DIR = obj
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
+OBJECTS = $(SOURCES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-all: ./program-generator
-	
-program-generator: $(SOURCES) $(HEADERS) 
-	$(CC) $(CFLAGS) $(SOURCES) -o $@
-	./$@ test.cpp
+RPG = rpg
 
-check: test.cpp
-	$(CC) $(CFLAGS) $< -o generated-program
-	./generated-program
+all: $(RPG)
 
+$(RPG): $(OBJ_DIR) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $(OBJECTS)
+
+$(OBJ_DIR):
+	mkdir -p $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c $< -o $@
+
+
+GENERATED = test.cpp
+GENERATED_EXEC = $(GENERATED:%.cpp=%.out)
+
+check: $(RPG)
+	@# generate test program
+	./$(RPG) $(GENERATED)
+	@# compile test program
+	$(CC) $(CFLAGS) $(GENERATED) -o $(GENERATED_EXEC)
+	@# run test program
+	./$(GENERATED_EXEC)
+
+clean:
+	rm -rf $(RPG) $(OBJ_DIR) $(GENERATED) $(GENERATED_EXEC)
