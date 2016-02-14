@@ -1,50 +1,18 @@
 #include <unordered_set>
+#include <unordered_map>
 #include <string>
 #include <cstdlib>
+#include <iostream>
 using namespace std;
 
-struct Variable {
-	string type;
-	string name;
-	Variable(string type);
-	Variable(string type, string name);
-	bool operator==(const Variable& other) const;
-	static char randChar();
-};
-
-Variable::Variable(string type) {
-	type = type;
-	name = "";
-}
-
-Variable::Variable(string type, string name) {
-	type = type;
-	name = name;
-}
-
-bool Variable::operator==(const Variable& other) const {
-	return name == other.name;
-}
-
-char Variable::randChar() {
+char randChar() {
 	return (rand() % ('z' - 'a')) + 'a';
 }
 
-namespace std {
-	template <>
-	struct hash<Variable>
-	{
-		std::size_t operator()(const Variable & t) const
-		{
-			return hash<string>{}(t.name);
-		}
-	};
-}
-
-
 class Scope {
 	private:
-		unordered_set<Variable> variables;
+		unordered_set<string> variableNames;
+		unordered_map<string, unordered_set<string>> types;
 
 	public:
 		string newVariable(string type);
@@ -53,33 +21,41 @@ class Scope {
 };
 
 string Scope::newVariable(string type) {
-	Variable var = Variable(type);
-	var.name = Variable::randChar();
-	while (variables.count(var))
-		var.name += Variable::randChar();
-	variables.insert(var);
-	return var.name;
+	string var;
+	var += randChar();
+
+	while (variableNames.count(var))
+		var += randChar();
+	variableNames.insert(var);
+	types[type].insert(var);
+	return var;
 }
 
 string Scope::getVariable(string type) {
-	if (variables.empty())
+	if (types[type].empty())
 		throw runtime_error("Scope has no variables of type " + type);
 
-	int random = rand() % variables.size();
-	for (Variable var : variables) {
+	int random = rand() % types[type].size();
+	for (string var : types[type]) {
 		if (random-- == 0)
-			return var.name;
+			return var;
 	}
 	return "";
 }
 
-#include <iostream>
 int main() {
 	srand((int)time(0));
 	Scope scope;
+	char in;
 	while(1) {
 		cout << scope.newVariable("int") << '\n';
-		cout << scope.getVariable("") << '\n';
-		cin.ignore();
+		cout << scope.getVariable("int") << '\n';
+		in = getchar();
+		if (in == 'q')
+			break;
 	}
+	cout << '\n';
+	cout << scope.newVariable("double") << '\n';
+	cout << scope.newVariable("double") << '\n';
+	cout << scope.getVariable("double") << '\n';
 }
