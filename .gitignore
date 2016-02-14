@@ -28,3 +28,7 @@
 *.app
 
 *.swp
+
+rpg
+test.cpp
+obj/
