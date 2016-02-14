@@ -42,6 +42,6 @@ string Scope::getVar(string type) {
 	if (types[type].empty())
 		throw runtime_error("Scope has no variables of type " + type);
 
-	int random = rand() % types[type].size();
+	int random = randGen.drawNumber(0, types[type].size() - 1);
 	return types[type][random];
 }
