@@ -1,9 +1,15 @@
 CC = g++
 CFLAGS = -std=c++11 -Wall -Wextra
 
-all: src/main.cpp
-	$(CC) $(CFLAGS) $< -o program-generator
-	./program-generator test.cpp
+SRC_DIR = src
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+HEADERS = $(wildcard $(SRC_DIR)/*.h)
+
+all: ./program-generator
+	
+program-generator: $(SOURCES) $(HEADERS) 
+	$(CC) $(CFLAGS) $(SOURCES) -o $@
+	./$@ test.cpp
 
 check: test.cpp
 	$(CC) $(CFLAGS) $< -o generated-program
