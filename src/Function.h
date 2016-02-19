@@ -8,8 +8,6 @@
 #include "VarStack.h"
 #include "util.h"
 
-unsigned g_currentTabCount = 0;
-
 using namespace std;
 
 class Function {
