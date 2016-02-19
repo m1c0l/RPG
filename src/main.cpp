@@ -7,21 +7,10 @@
 
 #include "Random.h"
 #include "Scope.h"
+#include "Function.h"
+#include "util.h"
 
 using namespace std;
-
-/*
- * A counter of how many tabs to output at the start of the line;
- * increment it whenever we reach a new scope
- */
-unsigned g_currentTabCount = 0;
-
-void coutLine(const string lineStr = "") {
-	for (unsigned i = 0; i < g_currentTabCount; i++) {
-		cout << '\t';
-	}
-	cout << lineStr << '\n';
-}
 
 
 void generateHeader() {
@@ -35,20 +24,8 @@ void generateHeader() {
 }
 
 void generateMainFunction() {
-	Scope scope;
-	coutLine("int main() {");
-	g_currentTabCount++;
-	coutLine("cout << \"Hello world!\" << '\\n';");
-	Random randGen;
-	random_t tmpRand = randGen.drawNumber(LLONG_MIN, LLONG_MAX);
-	coutLine("long long " + scope.newVar("long long") + " = "
-			+ to_string(tmpRand) + ";");
-	tmpRand = randGen.drawNumber(CHAR_MIN, CHAR_MAX);
-	coutLine("char " + scope.newVar("char") + " = "
-			+ to_string(tmpRand) + ";");
-	coutLine("return 0;");
-	g_currentTabCount--;
-	coutLine("}");
+	Function mainFunction = Function("int", "main");
+	mainFunction.printBody();
 }
 
 int main(int argc, char** argv) {

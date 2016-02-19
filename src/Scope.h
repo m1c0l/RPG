@@ -1,29 +1,26 @@
 #ifndef SCOPE_H
 #define SCOPE_H
 
-#include <unordered_set>
-#include <unordered_map>
-#include <vector>
-#include <string>
 using namespace std;
+
+
+class Function;
 
 class Scope {
 	private:
-		unordered_set<string> names;
-		unordered_map<string, vector<string>> types;
-
-		void addVar(string type, string name);
+		/* Number of variables only in this current scope;
+		 * doesn't include variables in other scopes within this scope */
+		unsigned numVars;
+		/* Function that this scope resides in */
+		Function *ownerFunction;
 
 	public:
-		/* Returns the name of a new variable */
-		string newVar(string type);
-
-		/* Return a new variable name, and try to name the variable the
-		 * given name */
-		string newVar(string type, string name);
-
-		/* Return a random variable name of the given type */
-		string getVar(string type);
+		Scope();
+		/* Increment this scope's number of variables by 1 */
+		void incVarCount();
+		/* Return numVars */
+		unsigned getVarCount();
+		
 };
 
 #endif
