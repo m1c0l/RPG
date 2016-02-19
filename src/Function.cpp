@@ -4,7 +4,7 @@
 #include "Random.h"
 #include "util.h"
 
-unsigned g_currentTabCount = 0;
+
 
 Function::Function(string returnType, string functionName) {
 	retType = returnType;
