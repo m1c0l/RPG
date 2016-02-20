@@ -3,7 +3,7 @@
 #include "Function.h"
 #include "Random.h"
 #include "util.h"
-
+#include "Type.h"
 
 
 Function::Function(string returnType, string functionName) {
@@ -36,13 +36,13 @@ void Function::printBody() {
 	coutLine("cout << \"Hello world!\" << '\\n';");
 	localScopes.push_back(Scope());
 	Scope *scope = &localScopes.back();
-	random_t tmpRand = g_randGen.drawNumber(LLONG_MIN, LLONG_MAX);
-	coutLine("long long " + localVars.newVar(LLONG) + " = "
-			+ to_string(tmpRand) + ";");
+	// random_t tmpRand = g_randGen.drawNumber(LLONG_MIN, LLONG_MAX);
+	coutLine(g_typeStrings[LLONG] + " " + localVars.newVar(LLONG) + " = "
+			+ getRandValue(LLONG) + ";");
 	scope->incVarCount();
-	tmpRand = g_randGen.drawNumber(CHAR_MIN, CHAR_MAX);
-	coutLine("char " + localVars.newVar(CHAR) + " = "
-			+ to_string(tmpRand) + ";");
+	// tmpRand = g_randGen.drawNumber(CHAR_MIN, CHAR_MAX);
+	coutLine(g_typeStrings[CHAR] + " " + localVars.newVar(CHAR) + " = "
+			+ getRandValue(CHAR) + ";");
 	coutLine("return 0;");
 	scope->incVarCount();
 	g_currentTabCount--;
