@@ -38,11 +38,11 @@ void Function::printBody() {
 	localScopes.push_back(Scope());
 	Scope *scope = &localScopes.back();
 	random_t tmpRand = randGen.drawNumber(LLONG_MIN, LLONG_MAX);
-	coutLine("long long " + localVars.newVar("long long") + " = "
+	coutLine("long long " + localVars.newVar(LLONG) + " = "
 			+ to_string(tmpRand) + ";");
 	scope->incVarCount();
 	tmpRand = randGen.drawNumber(CHAR_MIN, CHAR_MAX);
-	coutLine("char " + localVars.newVar("char") + " = "
+	coutLine("char " + localVars.newVar(CHAR) + " = "
 			+ to_string(tmpRand) + ";");
 	coutLine("return 0;");
 	scope->incVarCount();

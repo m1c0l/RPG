@@ -11,15 +11,12 @@ char randChar() {
 	return randGen.drawNumber('a', 'z');
 }
 
-void VarStack::addVar(string type, string name) {
-	if (!supportedTypes.count(type)) {
-		throw runtime_error("Unsupported type " + type + " in variable " + name);
-	}
+void VarStack::addVar(SupportedType type, string name) {
 	names.insert(name);
 	types[type].push_back(name);
 }
 
-string VarStack::newVar(string type) {
+string VarStack::newVar(SupportedType type) {
 	string name;
 	name += randChar();
 
@@ -30,7 +27,7 @@ string VarStack::newVar(string type) {
 	return name;
 }
 
-string VarStack::newVar(string type, string name) {
+string VarStack::newVar(SupportedType type, string name) {
 	// add a number to the end of the proposed name
 	int counter = 1;
 	string newName = name;
@@ -40,7 +37,7 @@ string VarStack::newVar(string type, string name) {
 	return newName;
 }
 
-string VarStack::getVar(string type) {
+string VarStack::getVar(SupportedType type) {
 	if (types[type].empty())
 		throw runtime_error("VarStack has no variables of type " + type);
 
