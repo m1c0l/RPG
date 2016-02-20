@@ -36,23 +36,19 @@ void Function::printBody() {
 	coutLine("cout << \"Hello world!\" << '\\n';");
 	localScopes.push_back(Scope());
 	Scope *scope = &localScopes.back();
-	// random_t tmpRand = g_randGen.drawNumber(LLONG_MIN, LLONG_MAX);
-	coutLine(g_typeStrings[LLONG] + " " + localVars.newVar(LLONG) + " = "
+	coutLine(g_typeStrings[LLONG] + " " + localVars.newVar(scope, LLONG) + " = "
 			+ getRandValue(LLONG) + ";");
-	scope->incVarCount();
-	// tmpRand = g_randGen.drawNumber(CHAR_MIN, CHAR_MAX);
-	coutLine(g_typeStrings[CHAR] + " " + localVars.newVar(CHAR) + " = "
+	coutLine(g_typeStrings[CHAR] + " " + localVars.newVar(scope, CHAR) + " = "
 			+ getRandValue(CHAR) + ";");
 	coutLine("return 0;");
-	scope->incVarCount();
 	g_currentTabCount--;
 	printBodyFooter();
 	cleanupCurrScope();
 }
 
 bool Function::cleanupCurrScope() {
-	Scope currScope = localScopes.back();
-	unsigned numScopeVars = currScope.getVarCount();
+	Scope *currScope = &localScopes.back();
+	bool ret = localVars.popVars(currScope);
 	localScopes.pop_back();
-	return localVars.popVars(numScopeVars);
+	return ret;
 }
