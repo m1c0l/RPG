@@ -5,8 +5,6 @@
 
 using namespace std;
 
-Random randGen;
-
 string getRandValue(SupportedType type) {
 	string randString;
 	switch(type) {

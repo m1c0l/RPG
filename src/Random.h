@@ -25,5 +25,7 @@ private:
     mt19937_64 eng{random_device{}()};
 };
 
+extern Random g_randGen;
+
 #endif
 

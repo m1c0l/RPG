@@ -5,10 +5,9 @@
 
 using namespace std;
 
-Random randGen;
 
 char randChar() {
-	return randGen.drawNumber('a', 'z');
+	return g_randGen.drawNumber('a', 'z');
 }
 
 void VarStack::addVar(SupportedType type, string name) {
@@ -41,7 +40,7 @@ string VarStack::getVar(SupportedType type) {
 	if (types[type].empty())
 		throw runtime_error("VarStack has no variables of type " + type);
 
-	int random = randGen.drawNumber(0, types[type].size() - 1);
+	int random = g_randGen.drawNumber(0, types[type].size() - 1);
 	return types[type][random];
 }
 
