@@ -23,12 +23,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
 
 GENERATED = test.cpp
 GENERATED_EXEC = $(GENERATED:%.cpp=%.out)
+GENERATED_CFLAGS = -std=c++11
 
 check: $(RPG)
 	@# generate test program
 	./$(RPG) $(GENERATED)
 	@# compile test program
-	$(CC) $(CFLAGS) $(GENERATED) -o $(GENERATED_EXEC)
+	$(CC) $(GENERATED_CFLAGS) $(GENERATED) -o $(GENERATED_EXEC)
 	@# run test program
 	./$(GENERATED_EXEC)
 
