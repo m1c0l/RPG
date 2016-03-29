@@ -36,15 +36,11 @@ void Function::printBody() {
 	coutLine("cout << \"Hello world!\" << '\\n';");
 	localScopes.push_back(Scope());
 	localVars.setScope(&localScopes.back());
-	for (unsigned i = 0; i < 10; i++) {
+	for (unsigned i = 0; i < 200; i++) {
 		SupportedType randType = getRandType();
 		coutLine(g_typeStrings[randType] + " " + localVars.newVar(randType) + " = "
 			+ getRandValue(randType) + ";");
 	}
-	// coutLine(g_typeStrings[LLONG] + " " + localVars.newVar(LLONG) + " = "
-	// 		+ getRandValue(LLONG) + ";");
-	// coutLine(g_typeStrings[CHAR] + " " + localVars.newVar(CHAR) + " = "
-	// 		+ getRandValue(CHAR) + ";");
 	coutLine("return 0;");
 	g_currentTabCount--;
 	printBodyFooter();
