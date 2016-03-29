@@ -16,9 +16,11 @@ bool VarStack::doesVarExist(string name) {
 	if (names.size() < numScopeVars) {
 		throw runtime_error("More scope variables than contained in VarStack somehow?!");
 	}
-	for (unsigned i = names.size() - 1; i > names.size() - 1 - numScopeVars; i--) {
-		if (names[i] == name) {
-			return true;
+	if (names.size()) {
+		for (int i = names.size() - 1; i >= (int)(names.size() - numScopeVars); i--) {
+			if (names[i] == name) {
+				return true;
+			}
 		}
 	}
 	return false;
