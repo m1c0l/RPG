@@ -35,11 +35,16 @@ void Function::printBody() {
 	g_currentTabCount++;
 	coutLine("cout << \"Hello world!\" << '\\n';");
 	localScopes.push_back(Scope());
-	Scope *scope = &localScopes.back();
-	coutLine(g_typeStrings[LLONG] + " " + localVars.newVar(scope, LLONG) + " = "
-			+ getRandValue(LLONG) + ";");
-	coutLine(g_typeStrings[CHAR] + " " + localVars.newVar(scope, CHAR) + " = "
-			+ getRandValue(CHAR) + ";");
+	localVars.setScope(&localScopes.back());
+	for (unsigned i = 0; i < 10; i++) {
+		SupportedType randType = getRandType();
+		coutLine(g_typeStrings[randType] + " " + localVars.newVar(randType) + " = "
+			+ getRandValue(randType) + ";");
+	}
+	// coutLine(g_typeStrings[LLONG] + " " + localVars.newVar(LLONG) + " = "
+	// 		+ getRandValue(LLONG) + ";");
+	// coutLine(g_typeStrings[CHAR] + " " + localVars.newVar(CHAR) + " = "
+	// 		+ getRandValue(CHAR) + ";");
 	coutLine("return 0;");
 	g_currentTabCount--;
 	printBodyFooter();
@@ -47,8 +52,10 @@ void Function::printBody() {
 }
 
 bool Function::cleanupCurrScope() {
-	Scope *currScope = &localScopes.back();
-	bool ret = localVars.popVars(currScope);
+	bool ret = localVars.popVars();
 	localScopes.pop_back();
+	if (localScopes.size()) {
+		localVars.setScope(&localScopes.back());
+	}
 	return ret;
 }

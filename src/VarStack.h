@@ -18,26 +18,30 @@ class VarStack {
 		vector<string> names;
 		// unordered_map won't take enums as keys so use an int, same thing
 		unordered_map<int, vector<string>> types;
+		/* pointer to current scope */
+		Scope *currScope;
 
 		/* Returns whether a variable name exists in current scope */
-		bool doesVarExist(Scope *currScope, string name);
+		bool doesVarExist(string name);
 
-		void addVar(Scope *currScope, SupportedType type, string name);
+		void addVar(SupportedType type, string name);
 
 
 	public:
 		/* Returns the name of a new variable */
-		string newVar(Scope *currScope, SupportedType type);
+		string newVar(SupportedType type);
 
 		/* Return a new variable name, and try to name the variable the
 		 * given name */
-		string newVar(Scope *currScope, SupportedType type, string name);
+		string newVar(SupportedType type, string name);
 
 		/* Return a random variable name of the given type */
 		string getVar(SupportedType type);
 
+		void setScope(Scope *newScope);
+
 		/* Pop a number of variables from the stack
 		 * when we're finished with a scope  */
-		bool popVars(Scope *currScope);
+		bool popVars();
 };
 #endif

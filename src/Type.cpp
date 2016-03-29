@@ -5,6 +5,10 @@
 
 using namespace std;
 
+SupportedType getRandType() {
+	return (SupportedType)g_randGen.drawNumber(0, NUM_SUPPORTED_TYPES - 1);
+}
+
 string getRandValue(SupportedType type) {
 	string randString;
 	random_t randLong;

@@ -11,7 +11,7 @@ char randChar() {
 	return g_randGen.drawNumber('a', 'z');
 }
 
-bool VarStack::doesVarExist(Scope *currScope, string name) {
+bool VarStack::doesVarExist(string name) {
 	unsigned numScopeVars = currScope->getVarCount();
 	if (names.size() < numScopeVars) {
 		throw runtime_error("More scope variables than contained in VarStack somehow?!");
@@ -24,35 +24,35 @@ bool VarStack::doesVarExist(Scope *currScope, string name) {
 	return false;
 }
 
-void VarStack::addVar(Scope *currScope, SupportedType type, string name) {
+void VarStack::addVar(SupportedType type, string name) {
 	// names.insert(name);
 	names.push_back(name);
 	types[type].push_back(name);
 	currScope->incVarCount(type);
 }
 
-string VarStack::newVar(Scope *currScope, SupportedType type) {
+string VarStack::newVar(SupportedType type) {
 	string name;
 	name += randChar();
 
 	// while (names.count(name))
 	// 	name += randChar();
-	while (doesVarExist(currScope, name))
+	while (doesVarExist(name))
 		name += randChar();
 
-	addVar(currScope, type, name);
+	addVar(type, name);
 	return name;
 }
 
-string VarStack::newVar(Scope *currScope, SupportedType type, string name) {
+string VarStack::newVar(SupportedType type, string name) {
 	// add a number to the end of the proposed name
 	int counter = 1;
 	string newName = name;
 	// while (names.count(newName))
 	// 	newName = name + to_string(counter++);
-	while (doesVarExist(currScope, name))
+	while (doesVarExist(name))
 		newName = name + to_string(counter++);
-	addVar(currScope, type, newName);
+	addVar(type, newName);
 	return newName;
 }
 
@@ -64,7 +64,11 @@ string VarStack::getVar(SupportedType type) {
 	return types[type][random];
 }
 
-bool VarStack::popVars(Scope *currScope) {
+void VarStack::setScope(Scope *newScope) {
+	currScope = newScope;
+}
+
+bool VarStack::popVars() {
 	unsigned numScopeVars = currScope->getVarCount();
 	if (names.size() < numScopeVars) {
 		throw runtime_error("More scope variables than contained in VarStack somehow?!");
