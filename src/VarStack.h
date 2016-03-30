@@ -8,8 +8,10 @@
 #include <string>
 
 #include "Type.h"
+#include "VarNameGen.h"
 
 using namespace std;
+
 
 class Scope;
 

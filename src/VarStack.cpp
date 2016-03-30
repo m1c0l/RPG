@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdexcept>
 
 #include "VarStack.h"
 #include "Random.h"
@@ -34,13 +34,19 @@ void VarStack::addVar(SupportedType type, string name) {
 }
 
 string VarStack::newVar(SupportedType type) {
-	string name;
-	name += randChar();
+	string name = g_varNameGen.getRandVarName();
+	// name += randChar();
 
 	// while (names.count(name))
 	// 	name += randChar();
-	while (doesVarExist(name))
-		name += randChar();
+	while (doesVarExist(name)) {
+		// name += randChar();
+		string newWord;
+		do {
+			newWord = g_varNameGen.getRandVarName();
+		} while (name.find(newWord) != string::npos);
+		name += "_" + newWord;
+	}
 
 	addVar(type, name);
 	return name;

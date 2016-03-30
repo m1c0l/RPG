@@ -6,6 +6,7 @@
 #include <limits.h>
 
 #include "Random.h"
+#include "VarNameGen.h"
 #include "Scope.h"
 #include "Function.h"
 #include "util.h"
