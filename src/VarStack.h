@@ -40,6 +40,9 @@ class VarStack {
 		/* Return a random variable name of the given type */
 		string getVar(SupportedType type);
 
+		/* Return count of number of variables of the type */
+		unsigned getVarCount(SupportedType type);
+
 		void setScope(Scope *newScope);
 
 		/* Pop a number of variables from the stack

@@ -65,6 +65,10 @@ string VarStack::getVar(SupportedType type) {
 	return types[type][random];
 }
 
+unsigned VarStack::getVarCount(SupportedType type) {
+	return types[type].size();
+}
+
 void VarStack::setScope(Scope *newScope) {
 	currScope = newScope;
 }
