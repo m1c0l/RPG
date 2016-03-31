@@ -35,12 +35,7 @@ void VarStack::addVar(SupportedType type, string name) {
 
 string VarStack::newVar(SupportedType type) {
 	string name = g_varNameGen.getRandVarName();
-	// name += randChar();
-
-	// while (names.count(name))
-	// 	name += randChar();
 	while (doesVarExist(name)) {
-		// name += randChar();
 		string newWord;
 		do {
 			newWord = g_varNameGen.getRandVarName();
@@ -56,8 +51,6 @@ string VarStack::newVar(SupportedType type, string name) {
 	// add a number to the end of the proposed name
 	int counter = 1;
 	string newName = name;
-	// while (names.count(newName))
-	// 	newName = name + to_string(counter++);
 	while (doesVarExist(name))
 		newName = name + to_string(counter++);
 	addVar(type, newName);
