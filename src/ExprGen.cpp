@@ -27,24 +27,37 @@ string ExprGen::getRandVarOrValue(SupportedType type) {
 }
 
 string ExprGen::genArithmeticExpr(SupportedType type) {
-	ArithmeticOperator randArithmeticOp = (ArithmeticOperator)g_randGen.drawNumber(0, NUM_ARITHMETIC_OPERATORS - 1);
+	bool isExprValid = false;
 	string exprStr;
-	switch(randArithmeticOp) {
-		case NEGATE:
-			exprStr = "-" + getRandVarOrValue(type);
-			break;
-		case SUM:
-			exprStr = getRandVarOrValue(type) + " + " + getRandVarOrValue(type);
-			break;
-		case DIFFERENCE:
-			exprStr = getRandVarOrValue(type) + " - " + getRandVarOrValue(type);
-			break;
-		case MULTIPLY:
-			exprStr = getRandVarOrValue(type) + " * " + getRandVarOrValue(type);
-			break;
-		case DIVIDE:
-			exprStr = getRandVarOrValue(type) + " / " + getRandVarOrValue(type);
-			break;
+	while (!isExprValid) {
+		ArithmeticOperator randArithmeticOp = (ArithmeticOperator)g_randGen.drawNumber(0, NUM_ARITHMETIC_OPERATORS - 1);
+		switch(randArithmeticOp) {
+			case NEGATE: {
+				string randVal = getRandVarOrValue(type);
+				if (randVal[0] == '-') {
+					break;
+				}
+				exprStr = "-" + randVal;
+				isExprValid = true;
+				break;
+			}
+			case SUM:
+				exprStr = getRandVarOrValue(type) + " + " + getRandVarOrValue(type);
+				isExprValid = true;
+				break;
+			case DIFFERENCE:
+				exprStr = getRandVarOrValue(type) + " - " + getRandVarOrValue(type);
+				isExprValid = true;
+				break;
+			case MULTIPLY:
+				exprStr = getRandVarOrValue(type) + " * " + getRandVarOrValue(type);
+				isExprValid = true;
+				break;
+			case DIVIDE:
+				exprStr = getRandVarOrValue(type) + " / " + getRandVarOrValue(type);
+				isExprValid = true;
+				break;
+		}
 	}
 	return exprStr;
 }
