@@ -23,7 +23,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
 
 GENERATED = test.cpp
 GENERATED_EXEC = $(GENERATED:%.cpp=%.out)
-GENERATED_CFLAGS = -std=c++11
+# turns out the test cpp needs debugging too...
+GENERATED_CFLAGS = -g -std=c++11
 
 check: $(RPG)
 	@# generate test program
