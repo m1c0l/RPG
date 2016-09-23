@@ -9,6 +9,7 @@
 
 #include "Type.h"
 #include "VarNameGen.h"
+#include "Variable.h"
 
 using namespace std;
 
