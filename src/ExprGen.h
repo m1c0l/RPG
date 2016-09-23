@@ -1,3 +1,6 @@
+#ifndef EXPRGEN_H
+#define EXPRGEN_H
+
 #include <string>
 
 #include "Type.h"
@@ -35,3 +38,5 @@ private:
 };
 
 extern ExprGen g_exprGen;
+
+#endif
